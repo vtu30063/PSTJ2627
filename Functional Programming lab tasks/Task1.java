@@ -1,14 +1,29 @@
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
-class Task1 {
+public class Task1 {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        int[] li = {1000, 2000, 3000, 4000, 5000};
+        int n = sc.nextInt();
 
-        int[] newSalaries = Arrays.stream(li)
-                .map(salary -> salary + (salary * 10 / 100))
-                .toArray();
+        List<Integer> salaries = new ArrayList<>();
 
-        System.out.println(Arrays.toString(newSalaries));
+        for (int i = 0; i < n; i++) {
+            salaries.add(sc.nextInt());
+        }
+
+        List<Integer> updatedSalaries = salaries.stream()
+                .map(salary -> salary * 110 / 100)
+                .collect(Collectors.toList());
+
+        updatedSalaries.forEach(salary -> System.out.print(salary + " "));
     }
 }
+//output:5
+1000
+2000
+3000
+4000
+5000
+1100 2200 3300 4400 5500
