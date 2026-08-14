@@ -1,7 +1,6 @@
 import java.util.*;
-import java.util.stream.*;
 
-public class Task4{
+public class Task5 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -10,9 +9,10 @@ public class Task4{
 
         int[] lps = new int[pattern.length()];
 
-        IntStream.range(1, pattern.length()).forEach(i -> {
-            int j = lps[i - 1];
+        int j = 0;
 
+        // Create LPS array
+        for (int i = 1; i < pattern.length(); i++) {
             while (j > 0 && pattern.charAt(i) != pattern.charAt(j)) {
                 j = lps[j - 1];
             }
@@ -22,31 +22,42 @@ public class Task4{
             }
 
             lps[i] = j;
-        });
+        }
 
-        List<Integer> result = new ArrayList<>();
+        // KMP search
+        StringBuilder result = new StringBuilder();
 
-        int[] j = {0};
+        int i = 0;
+        j = 0;
 
-        IntStream.range(0, text.length()).forEach(i -> {
-            while (j[0] > 0 &&
-                   text.charAt(i) != pattern.charAt(j[0])) {
-                j[0] = lps[j[0] - 1];
+        while (i < text.length()) {
+            if (text.charAt(i) == pattern.charAt(j)) {
+                i++;
+                j++;
             }
 
-            if (text.charAt(i) == pattern.charAt(j[0])) {
-                j[0]++;
-            }
+            if (j == pattern.length()) {
+                result.append(i - j).append(" ");
+                j = lps[j - 1];
+            } 
+            else if (i < text.length() &&
+                     text.charAt(i) != pattern.charAt(j)) {
 
-            if (j[0] == pattern.length()) {
-                result.add(i - pattern.length() + 1);
-                j[0] = lps[j[0] - 1];
+                if (j > 0) {
+                    j = lps[j - 1];
+                } else {
+                    i++;
+                }
             }
-        });
+        }
 
-        result.stream()
-              .forEach(i -> System.out.print(i + " "));
+        System.out.println(result.toString().trim());
 
         sc.close();
     }
 }
+// Input
+AABAACAADAABAABA
+AABA
+// Output
+0 9 12
