@@ -30,3 +30,12 @@ public class Task10{
         sc.close();
     }
 }
+//input
+3
+admin admin123
+ab 123
+user pass
+//output
+SUCCESS
+FAILURE
+FAILURE    
