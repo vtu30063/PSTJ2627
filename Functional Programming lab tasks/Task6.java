@@ -1,39 +1,103 @@
 import java.util.*;
-import java.util.stream.*;
 
-public class Task6{
+abstract class Vehicle {
+    abstract int calculateFare(int distance);
+}
+
+class Bike extends Vehicle {
+    public int calculateFare(int distance) {
+        return distance * 5;
+    }
+}
+
+class Auto extends Vehicle {
+    public int calculateFare(int distance) {
+        return distance * 12;
+    }
+}
+
+class Cab extends Vehicle {
+    public int calculateFare(int distance) {
+        return distance * 12;
+    }
+}
+
+class Driver {
+    String name;
+
+    Driver(String name) {
+        this.name = name;
+    }
+}
+
+class Rider {
+    String name;
+
+    Rider(String name) {
+        this.name = name;
+    }
+}
+
+class Trip {
+    Driver driver;
+    Rider rider;
+    Vehicle vehicle;
+    int distance;
+
+    Trip(Driver driver, Rider rider, Vehicle vehicle, int distance) {
+        this.driver = driver;
+        this.rider = rider;
+        this.vehicle = vehicle;
+        this.distance = distance;
+    }
+
+    int getFare() {
+        return vehicle.calculateFare(distance);
+    }
+}
+
+public class Task6 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
 
-        IntStream.range(0, n)
-            .mapToObj(i -> {
-                String type = sc.next();
-                double distance = sc.nextDouble();
-                return new String[]{type, String.valueOf(distance)};
-            })
-            .map(ride -> {
-                String type = ride[0];
-                double distance = Double.parseDouble(ride[1]);
+        Driver driver = new Driver("Driver1");
+        Rider rider = new Rider("Rider1");
 
-                try {
-                    if (distance <= 0)
-                        throw new IllegalArgumentException();
+        for (int i = 0; i < n; i++) {
 
-                    double fare = switch (type) {
-                        case "Bike" -> distance * 5;
-                        case "Auto" -> distance * 12;
-                        case "Cab" -> distance * 12;
-                        default -> throw new IllegalArgumentException();
-                    };
+            String type = sc.next();
+            int distance = sc.nextInt();
 
-                    return String.valueOf((int) fare);
-                } catch (IllegalArgumentException e) {
-                    return "Invalid booking";
+            try {
+                Vehicle vehicle;
+
+                if (type.equalsIgnoreCase("Bike")) {
+                    vehicle = new Bike();
+                } else if (type.equalsIgnoreCase("Auto")) {
+                    vehicle = new Auto();
+                } else if (type.equalsIgnoreCase("Cab")) {
+                    vehicle = new Cab();
+                } else {
+                    throw new IllegalArgumentException(
+                            "Invalid ride type");
                 }
-            })
-            .forEach(System.out::println);
+
+                if (distance <= 0) {
+                    throw new IllegalArgumentException(
+                            "Invalid distance");
+                }
+
+                Trip trip = new Trip(
+                        driver, rider, vehicle, distance);
+
+                System.out.println(trip.getFare());
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid Booking");
+            }
+        }
 
         sc.close();
     }
