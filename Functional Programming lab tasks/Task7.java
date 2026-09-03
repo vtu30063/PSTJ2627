@@ -21,3 +21,15 @@ public class Task7{
         sc.close();
     }
 }
+//input
+5
+java
+python
+java
+ai
+python
+//output
+java 2
+python 2
+ai 1
+    
