@@ -1,23 +1,47 @@
 import java.util.*;
-import java.util.stream.*;
 
-public class Task5{
+class BankAccount {
+    private int balance;
+
+    public BankAccount() {
+        balance = 0;
+    }
+
+    public void deposit(int amount) {
+        balance += amount;
+    }
+
+    public void withdraw(int amount) {
+        if (amount <= balance) {
+            balance -= amount;
+        }
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+
+public class Task5 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
-        sc.nextLine();
 
-        double balance = IntStream.range(0, n)
-                .mapToObj(i -> sc.nextLine().split(" "))
-                .mapToDouble(a -> 
-                    a[0].equals("Deposit")
-                    ? Double.parseDouble(a[1])
-                    : -Double.parseDouble(a[1])
-                )
-                .sum();
+        BankAccount account = new BankAccount();
 
-        System.out.println((int) balance);
+        for (int i = 0; i < n; i++) {
+            String operation = sc.next();
+            int amount = sc.nextInt();
+
+            if (operation.equalsIgnoreCase("Deposit")) {
+                account.deposit(amount);
+            } else if (operation.equalsIgnoreCase("Withdraw")) {
+                account.withdraw(amount);
+            }
+        }
+
+        System.out.println(account.getBalance());
 
         sc.close();
     }
