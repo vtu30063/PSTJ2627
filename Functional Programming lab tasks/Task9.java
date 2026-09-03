@@ -45,3 +45,10 @@ public class Task9 {
         sc.close();
     }
 }
+//input
+2
+10
+20
+//output
+Test Passed    
+    
