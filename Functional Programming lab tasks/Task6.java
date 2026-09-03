@@ -38,3 +38,12 @@ public class Task6{
         sc.close();
     }
 }
+// input
+3
+Bike 10
+Cab 15
+Auto 8
+// output
+50
+180
+96 
