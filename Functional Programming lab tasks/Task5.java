@@ -22,3 +22,10 @@ public class Task5{
         sc.close();
     }
 }
+// input
+3
+Deposit 5000
+Withdraw 2000
+Deposit 1000
+// output
+  4000  
